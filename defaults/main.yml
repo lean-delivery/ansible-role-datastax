@@ -1,0 +1,9 @@
+---
+# defaults file for datastax
+cluster_name: "Test_DataStax_cluster"
+num_tokens: 128
+seeds: "127.0.0.1"
+listen_address: "localhost"
+native_transport_port: 9042
+native_transport_address: "localhost"
+endpoint_snitch: "com.datastax.bdp.snitch.DseSimpleSnitch"

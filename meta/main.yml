@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  role_name: datastax
+  author: Lean Delivery Team <team@lean-delivery.com>
+  description: Install DSE
+  company: EPAM Systems
+  issue_tracker_url: https://github.com/lean-delivery/ansible-role-datastax/issues
+  license: Apache
+  min_ansible_version: 2.8
+  platforms: [{name: [EL], versions: [7]}]
+  galaxy_tags: [development, system]
+dependencies: []
