@@ -28,9 +28,9 @@ Lint:
   after_script:
     - rm -rf ~/ansible-lint-rules
   tags:
-    - aws
+    - lint
 
-Docker datastax:
+.Docker datastax:
   stage: deployment test
   script:
     - molecule test -s default
@@ -46,7 +46,7 @@ AWS datastax:
   tags:
     - aws
 
-EPC datastax:
+.EPC datastax:
   variables:
     EPC_REGION: EPAM-BY2
   stage: deployment test
