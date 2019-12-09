@@ -71,7 +71,6 @@
     group: cassandra
     mode: '0755'
 
-
 - name: Unarchive cqlsh
   command: tar -xzvf /tmp/dse_utils/cqlsh-{{ cqlsh_version }}-bin.tar.gz -C /opt
   args:
@@ -82,7 +81,6 @@
     src: /opt/cqlsh-{{ cqlsh_version }}/bin/cqlsh
     dest: /usr/bin/cqlsh
     state: link
-
 
 - name: Copy the dsbulk archive
   copy:
@@ -103,6 +101,3 @@
     src: /opt/dsbulk-{{ dsbulk_version }}/bin/dsbulk
     dest: /usr/bin/dsbulk
     state: link
-
-
-
