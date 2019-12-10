@@ -13,24 +13,19 @@
     key: https://rpm.datastax.com/rpm/repo_key
 
 
-- name: Wait 900 seconds for target connection to become reachable/usable
-  wait_for_connection:
-    timeout: 900
 - name: Yum update
   yum:
     name: "*"
-    state: present
+    state: latest
     lock_timeout: 180
 
 - name: Install the latest version of the DataStax Enterprise package
   yum:
-    name: dse-full
-    state: present
-
-- name: Install the latest version of the DSE demos package
-  yum:
-    name: dse-demos
-    state: present
+    name: "{{ item }}"
+    state: latest
+  loop:
+     - dse-full
+     - dse-demos
 
 - name: Enable SOLR in default dse
   lineinfile: dest=/etc/default/dse
@@ -52,52 +47,9 @@
     state: started
     enabled: yes
 
-- name: Verify that DataStax Enterprise is running
-  command: nodetool status
-  register: nodetool_status
-- debug: msg="{{ nodetool_status.stdout_lines }}"
-
-- name: Create directory for DataStax utils
-  file:
-    path: /tmp/dse_utils
-    state: directory
-    mode: '0755'
-
-- name: Copy the cqlsh archive
-  copy:
-    src: cqlsh-{{ cqlsh_version }}-bin.tar.gz
-    dest: /tmp/dse_utils/cqlsh-{{ cqlsh_version }}-bin.tar.gz
-    owner: cassandra
-    group: cassandra
-    mode: '0755'
-
-- name: Unarchive cqlsh
-  command: tar -xzvf /tmp/dse_utils/cqlsh-{{ cqlsh_version }}-bin.tar.gz -C /opt
-  args:
-    chdir: /tmp/dse_utils
-
-- name: Create a cqlsh symbolic link
-  file:
-    src: /opt/cqlsh-{{ cqlsh_version }}/bin/cqlsh
-    dest: /usr/bin/cqlsh
-    state: link
-
-- name: Copy the dsbulk archive
-  copy:
-    src: dsbulk-{{ dsbulk_version }}.tar.gz
-    dest: /tmp/dse_utils/dsbulk-{{ dsbulk_version }}.tar.gz
-    owner: cassandra
-    group: cassandra
-    mode: '0755'
+#- name: Verify that DataStax Enterprise is running
+#  command: nodetool status
+#  register: nodetool_status
+#- debug: msg="{{ nodetool_status.stdout_lines }}"
 
 
-- name: Unarchive dsbulk
-  command: tar -xzvf /tmp/dse_utils/dsbulk-{{ dsbulk_version }}.tar.gz -C /opt
-  args:
-    chdir: /tmp/dse_utils
-
-- name: Create a dsbulk symbolic link
-  file:
-    src: /opt/dsbulk-{{ dsbulk_version }}/bin/dsbulk
-    dest: /usr/bin/dsbulk
-    state: link
