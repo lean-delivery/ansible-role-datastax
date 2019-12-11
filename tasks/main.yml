@@ -6,6 +6,7 @@
     owner: root
     group: root
     mode: 0644
+  become: true
 
 - name: Import the DataStax Enterprise repository key
   rpm_key:
@@ -24,6 +25,7 @@
       - dse-full
       - dse-demos
     state: present
+  become: true
 
 - name: Enable SOLR in default dse
   lineinfile:
@@ -31,6 +33,7 @@
     regexp: '^SOLR_ENABLED'
     insertbefore: BOF
     line: 'SOLR_ENABLED=1'
+  become: true
 
 - name: Change cassandra.yaml file from template
   template:
@@ -39,12 +42,14 @@
     owner: cassandra
     group: cassandra
     mode: 0644
+  become: true
 
 - name: Start DataStax Enterprise
   sysvinit:
     name: dse
     state: started
     enabled: yes
+  become: true
 
 #- name: Verify that DataStax Enterprise is running
 #  command: nodetool status
