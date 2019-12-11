@@ -12,18 +12,18 @@
     state: present
     key: https://rpm.datastax.com/rpm/repo_key
 
-- name: Yum update
-  yum:
-    name: "*"
-    state: latest
-    lock_timeout: 180
+# - name: Yum update
+#   yum:
+#     name: "*"
+#     state: latest
+#     lock_timeout: 180
 
 - name: Install the latest version of the DataStax Enterprise package
   yum:
     name:
       - dse-full
       - dse-demos
-    state: latest
+    state: present
 
 - name: Enable SOLR in default dse
   lineinfile:
