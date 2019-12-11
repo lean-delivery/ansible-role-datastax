@@ -25,10 +25,10 @@ platforms:
     groups:
       - rhel_family
 
-  - name: test-aws-centos6-datastax
-    image: ami-1585c46a
-    platform: centos6
-    instance_type: m4.large
+  - name: test-aws-centos8-datastax
+    image: ami-0ed2ad9dc845b42b6
+    platform: centos8
+    instance_type: m5.large
     region: us-east-1
     vpc_subnet_id: subnet-0f2b9cd66faea38af
     assign_public_ip: false
@@ -38,52 +38,22 @@ platforms:
     wait_timeout: 1800
     ssh_user: centos
     groups:
-     - rhel_family
+      - rhel_family
 
-  - name: test-aws-ubuntu16-datastax
-    image: ami-09677e0a6b14905b0
-    platform: ubuntu16
+  - name: test-aws-rhel7-datastax
+    image: ami-0ed2ad9dc845b42b6
+    platform: rhel7
     instance_type: m5.large
     region: us-east-1
     vpc_subnet_id: subnet-0f2b9cd66faea38af
     assign_public_ip: false
-    security_group_name:
-      - default
-    spot_price: 0.04
-    wait_timeout: 1800
-    ssh_user: ubuntu
-    groups:
-      - debian_family
-
-  - name: test-aws-ubuntu18-datastax
-    image: ami-012fd5eb46f56731f
-    platform: ubuntu18
-    instance_type: m5.large
-    region: us-east-1
-    vpc_subnet_id: subnet-0f2b9cd66faea38af
-    assign_public_ip: false
-    security_group_name:
-      - default
-    spot_price: 0.04
-    wait_timeout: 1800
-    ssh_user: ubuntu
-    groups:
-      - debian_family
-
-  - name: test-aws-Debian9-datastax
-    image: ami-003f19e0e687de1cd
-    platform: debian9
-    instance_type: m5.large
-    region: us-east-1
-    vpc_subnet_id: subnet-0f2b9cd66faea38af
-    assign_public_ip: false
-    spot_price: 0.04
+    spot_price: 0.4
     security_group_name:
       - default
     wait_timeout: 1800
-    ssh_user: admin
+    ssh_user: ec2-user
     groups:
-      - debian_family
+      - rhel_family
 
   - name: test-aws-Amazon-datastax
     image: ami-035b3c7efe6d061d5
@@ -115,33 +85,6 @@ platforms:
     groups:
       - rhel_family
 
-  - name: test-aws-Windows2016-datastax
-    image_id: ami-00a20f508263efd30
-    platform: windows2016core
-    region: us-east-1
-    instance_type: m5.large
-    vpc_subnet_id: subnet-0f2b9cd66faea38af
-    assign_public_ip: false
-    spot_price: 0.14
-    security_group_name:
-      - default
-    wait_timeout: 1800
-    groups:
-      - windows
-
-  - name: test-aws-Windows2019-datastax
-    image_id: ami-0477b9335a5a75438
-    platform: windows2019core
-    region: us-east-1
-    instance_type: m5.large
-    vpc_subnet_id: subnet-0f2b9cd66faea38af
-    assign_public_ip: false
-    spot_price: 0.14
-    security_group_name:
-      - default
-    wait_timeout: 1800
-    groups:
-      - windows
 provisioner:
   name: ansible
   log: true
