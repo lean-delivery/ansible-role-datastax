@@ -12,6 +12,8 @@
   rpm_key:
     state: present
     key: https://rpm.datastax.com/rpm/repo_key
+  register: rpm_key_install
+  until: rpm_key_install is succeeded
   become: true
 
 # - name: Yum update
@@ -26,6 +28,8 @@
       - dse-full
       - dse-demos
     state: present
+  register: dse_install
+  until: dse_install is succeeded
   become: true
 
 - name: Enable SOLR in default dse
@@ -49,7 +53,7 @@
   sysvinit:
     name: dse
     state: started
-    enabled: yes
+    enabled: true
   become: true
 
 #- name: Verify that DataStax Enterprise is running
