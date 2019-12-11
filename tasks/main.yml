@@ -1,0 +1,62 @@
+---
+- name: Add the DataStax Yum repository to datastax.repo from template
+  template:
+    src: datastax.repo.j2
+    dest: /etc/yum.repos.d/datastax.repo
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: Import the DataStax Enterprise repository key
+  rpm_key:
+    state: present
+    key: https://rpm.datastax.com/rpm/repo_key
+  register: rpm_key_install
+  until: rpm_key_install is succeeded
+  become: true
+
+# - name: Yum update
+#   yum:
+#     name: "*"
+#     state: latest
+#     lock_timeout: 180
+
+- name: Install the latest version of the DataStax Enterprise package
+  yum:
+    name:
+      - dse-full
+      - dse-demos
+    state: present
+  register: dse_install
+  until: dse_install is succeeded
+  become: true
+
+- name: Enable SOLR in default dse
+  lineinfile:
+    dest: /etc/default/dse
+    regexp: '^SOLR_ENABLED'
+    insertbefore: BOF
+    line: 'SOLR_ENABLED=1'
+  become: true
+
+- name: Change cassandra.yaml file from template
+  template:
+    src: cassandra.yaml.j2
+    dest: /etc/dse/cassandra/cassandra.yaml
+    owner: cassandra
+    group: cassandra
+    mode: 0644
+  become: true
+
+- name: Start DataStax Enterprise
+  sysvinit:
+    name: dse
+    state: started
+    enabled: true
+  become: true
+
+#- name: Verify that DataStax Enterprise is running
+#  command: nodetool status
+#  register: nodetool_status
+#- debug: msg="{{ nodetool_status.stdout_lines }}"
